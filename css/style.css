@@ -1,0 +1,261 @@
+@font-face{ 
+	font-family: 'Roboto';
+	src: url('../../font/Roboto.eot');
+	src: url('../../font/Roboto.eot?#iefix') format('embedded-opentype'),
+	     url('../../font/Roboto.woff') format('woff'),
+	     url('../../font/Roboto.ttf') format('truetype'),
+	     url('../../font/Roboto.svg#webfont') format('svg');
+}
+
+body{
+	background-color: #111;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 100;
+	font-size: 1em;
+	color: #fff;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+}
+
+#bg {
+	-moz-backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-moz-transform: translate3d(0,0,0);
+	-webkit-transform: translate3d(0,0,0);
+	-o-transform: translate3d(0,0,0);
+	-ms-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+	height: 100%;
+	left: 0;
+	opacity: 1;
+	position: fixed;
+	top: 0;
+}
+
+#bg {
+	width: 100%;
+}
+h1,h2{
+	font-size: 3.4em;
+	display: block;
+	margin: 0 auto;
+	position: relative;
+	text-align:left;
+	text-shadow:2px 2px 2px rgba(0, 0, 0, 0.11);
+	white-space: nowrap;
+}
+h1{
+	font-size: 2.4em;
+}
+a{
+	text-decoration: none;
+	color:#fff;
+	font-size: 1em;
+	margin-right:10px;
+	float: left;
+	display:block;
+	white-space: nowrap;
+	-webkit-transition: color 200ms ease-in-out;
+	-moz-transition: color 200ms ease-in-out;
+	-ms-transition: color 200ms ease-in-out;
+	-o-transition: color 200ms ease-in-out;
+	transition: color 200ms ease-in-out;
+}
+a:before{
+	content: ' / '
+}
+a:hover{
+	color: #CCC;
+}
+
+.detail {
+	border-left:5px solid #fff;
+	display: block;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	-webkit-transform: translateY(-50%) translate3d(0,0,0);
+	-moz-transform: translateY(-50%) translate3d(0,0,0);
+	-ms-transform: translateY(-50%) translate3d(0,0,0);
+	-o-transform: translateY(-50%) translate3d(0,0,0);
+	transform: translateY(-50%) translate3d(0,0,0);
+	-webkit-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-ms-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+	-webkit-animation: anim 1s linear;
+	-o-animation: anim 1s linear;
+	-moz-animation: anim 1s linear;
+	animation: anim 1s linear;
+	opacity: 1;
+}
+
+@-webkit-keyframes anim {
+	0%{
+			opacity: 0;
+			border-left:0px solid #fff;
+			-webkit-filter:blur(3px);
+	}
+	50%{
+			opacity: 0.5;
+			border-left:5px solid #fff;
+			-webkit-filter:blur(0.5px);
+	}
+	100%{
+			opacity: 1;
+			-webkit-filter:blur(0);
+			border-left:5px solid #fff;
+	}
+}
+
+@-moz-keyframes anim {
+	0%{
+			opacity: 0;
+			border-left:0px solid #fff;
+			-webkit-filter:blur(3px);
+	}
+	50%{
+			opacity: 0.5;
+			border-left:5px solid #fff;
+			-webkit-filter:blur(0.5px);
+	}
+	100%{
+			opacity: 1;
+			-webkit-filter:blur(0);
+			border-left:5px solid #fff;
+	}
+}
+
+@keyframes anim {
+	0%{
+			opacity: 0;
+			border-left:0px solid #fff;
+			-webkit-filter:blur(3px);
+	}
+	50%{
+			opacity: 0.5;
+			border-left:5px solid #fff;
+			-webkit-filter:blur(0.5px);
+	}
+	100%{
+			opacity: 1;
+			-webkit-filter:blur(0);
+			border-left:5px solid #fff;
+	}
+}
+
+
+.info {
+	margin-left: 10px;
+}
+
+.detail:hover {
+	border-color:#CCC;
+}
+
+.links {
+	position: absolute;
+	-webkit-animation: animtext 1s ease-in-out 1s;
+	-o-animation: animtext 1s ease-in-out 1s;
+	-moz-animation: animtext 1s ease-in-out 1s;
+	animation: animtext 1s ease-in-out 1s;
+}
+
+@-webkit-keyframes animtext {
+	0%{
+		opacity: 0;		
+	}
+	100%{	
+		opacity: 1;
+	}
+}
+
+
+@keyframes animtext {
+	0%{
+		opacity: 0;		
+	}
+	100%{	
+		opacity: 1;
+	}
+}
+
+
+@-moz-keyframes animtext {
+	0%{
+		opacity: 0;		
+	}
+	100%{	
+		opacity: 1;
+	}
+}
+
+@media (max-width: 650px) {
+	h1,h2{
+		font-size: 2.4em;
+	}
+	h1{
+		font-size: 1.4em;
+	}
+	.info {
+		margin-top: 10px;
+	}
+	.detail{
+		border-top:5px solid #fff;
+		border-left: 0;
+	}
+}
+
+@media (max-width: 400px){
+	h2{
+		width: 400px;
+		white-space: pre-line;
+	}
+}
+
+@-webkit-keyframes test {
+	from {
+		left:0;
+		height: 3%;
+		top: -3px;
+	}
+	to {
+		left:0;
+		height: 3%;
+		top: -3px;
+		width: 100%;
+	}
+}
+
+@keyframes test {
+	from {
+		left:0;
+		height: 3%;
+		top: -3px;
+	}
+	to {
+		left:0;
+		height: 3%;
+		top: -3px;
+		width: 100%;
+	}
+}
+
+@-moz-keyframes test {
+	from {
+		left:0;
+		height: 3%;
+		top: -3px;
+	}
+	to {
+		left:0;
+		height: 3%;
+		top: -3px;
+		width: 100%;
+	}
+}
