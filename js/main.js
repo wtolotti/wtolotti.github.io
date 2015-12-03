@@ -15,7 +15,7 @@ window.Port = window.Port || {};
 
 })(Port)
 
-angular.module('proCompra',['proCompra.controllers','proCompra.directives','proCompra.services'])
+angular.module('proCompra',['proCompra.controllers','proCompra.directives','proCompra.services','proCompra.filters'])
 angular.module('proCompra.controllers', [])
 .controller('QuestionaryCtrl', ['$scope','$window','Questionary','$filter','$rootScope','Upload','Auth',  function ($scope,$window,Questionary,$filter,$rootScope,Upload,Auth) {
 	var questionaryAcceptContactLength = null;
@@ -271,6 +271,20 @@ angular.module('proCompra.controllers', [])
     	}
     };
 }]);
+angular.module('proCompra.filters', [])
+	.filter('isEmail',function(){
+		return function(str){
+			if(!str){
+				return null;
+			}
+			return str.match(/^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/igm) != null;
+		};
+	})
+	.filter("sanitize", ['$sce', function($sce) {
+		return function(htmlCode){
+			return $sce.trustAsHtml(htmlCode);
+		}
+	}])
 angular.module('proCompra.directives',[])
 .directive('questionary', ['Questionary','$window','$rootScope', function(Questionary,$window,$rootScope) {
 	return {
@@ -280,6 +294,7 @@ angular.module('proCompra.directives',[])
 		templateUrl: '/questionary.html',
 		link: function (scope, el, attr) {
 			Questionary.get(attr.category).then(function(r){
+				console.log(r)
 				scope.questionary = r.data;
 				$rootScope.$broadcast('Questionary.get',r.data);
 				// setTimeout(function(){
