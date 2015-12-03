@@ -1,0 +1,165 @@
+<section class="wizard" data-ng-class="{'bigger':(type=='pj' && wizard.step == (questionary.questions.length + 1)),'bigQuestion':bigQuestion}">
+    <header>
+        <h4 data-ng-hide="wizard.step == (questionary.questions.length + 3)">
+            {{questionary.title}}
+            <small data-ng-show="questionary.subtitle && wizard.step != (questionary.questions.length + 2)" ng-bind-html="questionary.subtitle | sanitize"></small>
+            <small data-ng-show="questionary.subtitle && wizard.accept_contact == '1' && wizard.step == (questionary.questions.length + 2)" ng-bind-html="questionary.subtitle | sanitize"></small>
+            <small data-ng-show="questionary.subtitle && wizard.accept_contact == '0' && wizard.step == (questionary.questions.length + 2)">Receba novidades de nossas categorias</small>
+        </h4>
+
+        <h4 data-ng-show="wizard.step == (questionary.questions.length + 3) && wizard.accept_contact == '1'">
+            <i class="fa fa-check text-success"></i> Recebemos seu pedido, {{wizard.name}}.
+            Veja o que acontece agora:
+        </h4>        
+        <h4 data-ng-show="wizard.step == (questionary.questions.length + 3) && wizard.accept_contact == '0'">
+            <i class="fa fa-check success-no-header text-success"></i>Obrigado por se cadastrar.
+        </h4>
+    </header>
+    <ul class="steps">
+        <li data-ng-repeat="question in questionary.questions" class="question" data-ng-class="{'bigOption':question.options.length > 4,'bigOptionQuestion':question.title.length > 100}" data-ng-show="wizard.step == $index">
+            <div class="prevQuestion">
+                <i class="fa fa-angle-left" ng-click="wizard.step = wizard.step -1" ng-hide="wizard.step == 0 || wizard.step > questionary.questions.length +1"></i>
+            </div>
+            <h5>
+                {{question.title}}
+                <sub ng-class="{numbMax:$index+1 >= 10}">{{$index+1}}</sub>
+            </h5>
+            <ul>
+                <li data-ng-repeat="option in question.options" data-ng-class="{'selected':(wizard.answers[question.id].id==option.id)}" data-ng-click="setAnswer(question, option)">
+                    <figure>
+                        <img data-ng-src="{{option.icon}}">
+                        <figcaption class="hyphenate">{{option.text}}</figcaption>
+                    </figure>
+                </li>
+            </ul>
+            <div ng-show="totalPrice.status && is_price_calculator_active && !totalPrice.is_only_base" class="totalPrice">
+                <span> Entre: {{totalPrice.min | currency}} ~ </span>
+                <span>{{totalPrice.max | currency}} </span>
+                <span class="pro-tooltip" data-tolltipname="Os resultados são indicativos e só podem ser determinados com precisão posteriormente pelo fornecedor."><i class="fa fa-question-circle"></i></span>
+            </div>  
+        </li>
+        <li data-ng-show="wizard.step == questionary.questions.length" class="question lastQuestion">
+            <div class="prevQuestion">
+                <i class="fa fa-angle-left" ng-click="wizard.step = wizard.step -1" ng-hide="wizard.step == 0 || wizard.step > questionary.questions.length +1"></i>
+            </div>
+            <h5>Estou procurando para minha</h5>
+            <ul>
+                <li data-ng-class="{'selected':type=='pf'}" data-ng-click="type='pf'; next()">
+                    <figure>
+                        <img src="https://s3-sa-east-1.amazonaws.com/procompra/Pictos+-+M%C3%B3veis+/Pictos+-+M%C3%B3veis+/pictos_novosite/novos_pictos_moveis_residencia.png">
+                        <figcaption>Residência</figcaption>
+                    </figure>
+                </li>
+                <li data-ng-class="{'selected':type=='pj'}" data-ng-click="type='pj'; next()">
+                    <figure>
+                        <img src="https://s3-sa-east-1.amazonaws.com/procompra/Pictos+-+M%C3%B3veis+/Pictos+-+M%C3%B3veis+/pictos_novosite/novos_pictos_moveis_empresa.png">
+                        <figcaption>Empresa</figcaption>
+                    </figure>
+                </li>
+            </ul>
+            <div ng-show="totalPrice.status && is_price_calculator_active && !totalPrice.is_only_base" class="totalPrice">
+                <span> Entre: {{totalPrice.min | currency}} ~ </span>
+                <span>{{totalPrice.max | currency}} </span>
+                <span class="pro-tooltip" data-tolltipname="Os resultados são indicativos e só podem ser determinados com precisão posteriormente pelo fornecedor."><i class="fa fa-question-circle"></i></span>
+            </div>  
+        </li>
+        <li class="form col-md-10 col-md-offset-1 presuccess" data-ng-show="wizard.step == (questionary.questions.length + 1) && is_accept_contact_active == '1'">
+            <ng-include src="'/wp-content/themes/Avada-Child-Theme/assets/templates/presuccess_questionary.html'"/>
+        </li>
+        <li class="form col-md-10 col-md-offset-1 inputPage" data-ng-show="wizard.step == (questionary.questions.length + 2)">
+            <form name="formWizard" data-ng-submit="submit()" autocomplete="off">
+                <div class="form-inline">
+                    <ng-include data-ng-show="type == 'pj'" src="'/wp-content/themes/Avada-Child-Theme/assets/templates/questionary-fields.html'"></ng-include>
+                    <ng-include data-ng-show="type == 'pf'" src="'/wp-content/themes/Avada-Child-Theme/assets/templates/questionary-fields.html'"></ng-include>
+                    <div class="form-group M15-t" data-ng-class="{'has-error':error.email}">
+                        <i class="fa fa-envelope-o input-icon"></i>
+                        <!-- <label for="fieldEmail">Email<sup>*</sup></label> -->
+                        <input autocomplete="off" type="text" name="email" id="fieldEmail" class=" form-control" data-ng-model="wizard.email" data-animated-label="animated-label" formnovalidate="" data-ng-trim="true" placeholder="Email">
+                        <span class="error" data-ng-show="error.email">{{error.email}}</span>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group M15-t" data-ng-class="{'has-error':error.phone}">
+                        <!-- <label for="fieldPhone">Celular ou Fixo(com DDD)<sup>*</sup></label> -->
+                        <i class="fa fa-phone input-icon"></i>
+                        <input autocomplete="off" type="text" id="fieldPhone" class=" form-control" ui-br-phone-number data-ng-model="wizard.phone" data-animated-label="animated-label" formnovalidate="" data-ng-trim="true" placeholder="Celular ou Fixo(com DDD) *">
+                        <span class="error" data-ng-show="error.phone">{{error.phone}}</span>
+                    </div>
+                    <div class="form-group M15-t" data-ng-class="{'has-error':error.postal}">
+                        <i class="fa fa-map-marker input-icon"></i>
+                        <!-- <label for="fieldPostal">Informe seu CEP<sup>*</sup></label> -->
+                        <input autocomplete="off" type="text" id="fieldPostal" maxlength="9" data-angular-mask="00000-000" data-ng-model="wizard.postal" class=" form-control form-inline" data-animated-label="animated-label" placeholder="Informe seu CEP *">
+                        <span class="error" data-ng-show="error.postal">{{error.postal}}</span>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group M15-t" data-ng-show="type == 'pj'">
+                        <!-- <label for="fieldCompany">Razão Social</label> -->
+                        <i class="fa fa-building input-icon"></i>
+                        <input autocomplete="off" type="text" id="fieldCompany" class=" form-control" data-ng-model="wizard.company" data-animated-label="animated-label" placeholder="Razão Social">
+                    </div>
+                    <div class="form-group M15-t" data-ng-show="type == 'pj'">
+                        <!-- <label for="fieldCompadyId">CNPJ</label> -->
+                        <i class="fa fa-file-text-o input-icon"></i>
+                        <input autocomplete="off" type="text" id="fieldCompadyId" class=" form-control" data-angular-mask="00.000.000/0000-00" data-ng-model="wizard.companyId" data-animated-label="animated-label" data-angular-mask="00.000.000/0000-00" maxlength="18" placeholder="CNPJ">
+                    </div>
+                </div>
+                 <div class="form-inline fileUpload">
+                    <div class="form-group" ng-class="{'errorGroup':filesError}" style="width:89%;">
+                        <div class="labelUpload" >
+                            <span ng-show="files.length">Arquivos</span>
+                            <span ng-show="filesError" class="error">Arquivo(s) inválido(s) ou tamanho excedido</span>
+                        </div>
+                        <span ng-hide="files.length" class="pro-tooltip" data-tolltipname="Envie arquivos do tipo png/jpg/pdf de no máximo 5mb cada arquivo." ngf-select="true" ng-model="files" ngf-multiple="true" ngf-keep-distinct="true" ngf-keep="true" ngf-accept="'image/*,application/pdf'" ngf-max-size='5120000' ngf-change="testFile($files, $rejectedFiles)">
+                            <i class="fa fa-info"></i>
+                        </span>
+                        <span ng-hide="files.length" class="labelType" ngf-select="true" ng-model="files" ngf-multiple="true" ngf-keep-distinct="true" ngf-keep="true" ngf-accept="'image/*,application/pdf'" ngf-max-size='5120000' ngf-change="testFile($files, $rejectedFiles)">Envie arquivos do tipo png/jpg/pdf.</span>
+                        <tag-input taglist='files'></tag-input>
+                    </div>
+                    <div class="form-group groupButton" style="width:10%;">
+                        <i class="fa fa-plus" ngf-select="true" ng-model="files" ngf-multiple="true" ngf-keep-distinct="true" ngf-keep="true" ngf-accept="'image/*,application/pdf'" ngf-max-size='5120000' ngf-change="testFile($files, $rejectedFiles)" style="font-size: 20px;margin-top: 19px;margin-left: 10px;cursor: pointer;" title="Envie arquivos do tipo png/jpg/pdf de no máximo 5mb cada arquivo."></i>
+                        <!-- <button class="btn btn-primary pro-btn-third arrow_btn instant-hide" ngf-select="true" ng-model="files" ngf-multiple="true" ngf-keep-distinct="true" ngf-keep="true" ngf-accept="'image/*,application/pdf'" ngf-max-size='5120000' ngf-change="testFile($files, $rejectedFiles)">
+                            <i class="fa fa-cloud-upload"></i>
+                            <span>Envie sua planta</span>
+                        </button> -->
+                    </div>
+                 </div>
+       <!--           <button type="submit" class="action-button shadow animate blue">
+                    <span data-ng-show="!newsletter.status">Solicitar orçamento</span>
+                </button> -->
+                <button type="submit" class="btn btn-primary pro-btn-second arrow_btn instant-hide btn-block" ng-show="wizard.accept_contact == '1'"><span>Solicitar Orçamento</span></button>
+                <button type="submit" class="btn btn-primary pro-btn-second arrow_btn instant-hide btn-block" ng-show="wizard.accept_contact == '0'"><span>Receber novidades</span></button>
+            </form>
+        </li>   
+        <li class="success-page" data-ng-show="wizard.step == (questionary.questions.length + 3) && wizard.accept_contact == '1'">
+            <ng-include src="'/wp-content/themes/Avada-Child-Theme/assets/templates/success.html'"/>
+        </li>        
+        <li class="success-page-no" data-ng-show="wizard.step == (questionary.questions.length + 3) && wizard.accept_contact == '0'">
+            <ng-include src="'/wp-content/themes/Avada-Child-Theme/assets/templates/success-no.html'"/>
+        </li>
+    </ul>
+    <button class="btn btn-primary pro-btn-second arrow_btn instant-hide hidden-xs" data-ng-click="next()" data-ng-show="wizard.step < questionary.questions.length">Avançar</button>
+    <button class="btn btn-primary pro-btn-second arrow_btn pro_mini_btn instant-hide visible-xs-block" data-ng-click="next()" data-ng-show="wizard.step < questionary.questions.length">Avançar</button>
+    <!-- <button type="submit" class="action-button shadow animate blue" data-ng-click="next()">
+        <span>Avançar</span>
+    </button> -->
+    <footer data-ng-class="{'inputPageFooter':wizard.step == (questionary.questions.length + 2),'presuccess_footer':wizard.step == (questionary.questions.length + 1),'success_footer':wizard.step == (questionary.questions.length + 3)}">
+        <div id="stepsBreadcrumb" data-ng-hide="!wizard.id || wizard.step > questionary.questions.length">
+            <div class="stepsContainer">
+                <div class="step" ng-class="{'active':(wizard.step == $index),'done':(isEmpty(wizard.answers[question.id].id))}" step="{{$index + 1}}" data-ng-repeat="question in questionary.questions">
+                    <i class="fa fa-check text-success" ng-show="isEmpty(wizard.answers[question.id].id)"></i>
+                </div>
+                <div class="step last" ng-class="{'active':(wizard.step == questionary.questions.length),'done':type}" step="{{questionary.questions.length+1}}">
+                    <i class="fa fa-check text-success" ng-show="type"></i>
+                </div>
+            </div>
+        </div>
+        <small data-ng-show="wizard.step == (questionary.questions.length + 2)">(*) Campos obrigatórios</small>
+        <small data-ng-show="wizard.step == (questionary.questions.length + 1)">(*) Os resultados são indicativos e só podem ser determinados com precisão posteriormente pelo fornecedor.</small>
+    </footer>
+    <div class="loading-background" data-ng-show="loading"></div>
+    <div class="loading-icon" data-ng-show="loading">
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>
+</section>
+<button data-ng-click="scrollTop()" class="btn btn-success btn-block btn-bigger Ps-fx Ps-start-z Ps-top-z animate-show" data-ng-show="questionaryInvisible">Solicite agora seus orçamentos. É grátis!</button>

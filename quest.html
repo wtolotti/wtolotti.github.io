@@ -23,7 +23,7 @@
                 restrict: 'E',
                 controller:'QuestionaryCtrl',
                 scope:true,
-                templateUrl: '/wp-content/themes/Avada-Child-Theme/assets/templates/questionary.html',
+                templateUrl: '/questionary.html',
                 link: function (scope, el, attr) {
                     Questionary.get(attr.category).then(function(r){
                         scope.questionary = r.data;
@@ -557,8 +557,11 @@ angular.module('proCompra.services', [])
     })
     </script>
 </head>
-<body id="port">
-    <div id="bg"></div>
+<body id="port" ng-app="ProCompra">
+    <div id="bg">
+        
+        <questionary id="questionary" data-category="moveis-planejados"></questionary>
+    </div>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
