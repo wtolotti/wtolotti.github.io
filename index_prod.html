@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="procompraApp">
+<head>
+    <title>ProCompra</title>
+    <link href="https://app.procompra.com.br/procompra_v4/stylesheets/application.css?version=1452599891468" rel="stylesheet">
+    <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
+    <link rel="shortcut icon" href="img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
+    <script>
+        /* yeah we need this empty stylesheet here. It's cool chrome & chromium fix
+         chrome fix https://code.google.com/p/chromium/issues/detail?id=167083
+         https://code.google.com/p/chromium/issues/detail?id=332189
+         */
+    </script>
+</head>
+
+<body data-ng-controller="ProCompraAppController" class="procompra app">
+
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.5";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	<header class="procompra base">
+		<div class="container pt-0">
+			
+			<div class="row">
+				<div class="col-md-12 border-b base">
+					<a href="https://www.procompra.com.br" target="_blank">
+						<div class="logo pull-left">
+							<h1>
+								ProCompra
+							</h1>
+						</div>
+					</a>
+					<div class="seals pull-right">
+						<ul class="list-unstyled clearfix mt">
+							<li class="ml pull-left"><img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/gpartner.png" alt=""></li>
+							<li class="ml pull-left"><img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/alphassl.png" alt=""></li>
+							<li class="ml pull-left seal"><img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/selo.png" alt=""></li>
+							<li class="ml pull-left"><img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/ssl.png" alt=""></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<div class="procompra base intro">
+		<div class="container pt-0">
+			<section class="row">
+				<div class="col-md-6 border-r" ng-class="{'col-md-6':!quest_active,'col-md-4':quest_active}">
+					<h4 class="text-title mt-0 line-height">O sonho dos <strong>Móveis Planejados</strong> se realiza aqui!
+						<br>
+						Entenda como o <strong>ProCompra</strong> funciona na prática:
+					</h4>
+					<iframe iframe-set-dimensions-onload src="https://www.youtube.com/embed/GBjU1xQlXjY" frameborder="0" allowfullscreen/ height="270px" width="100%">
+				</div>
+				<div class="col-md-6" ng-class="{'col-md-6':!quest_active,'col-md-8':quest_active}">
+					<questionnaire id="questionnaire" data-category="moveis-planejados"></questionnaire>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<div class="procompra feature">
+		
+		<div class="container">
+			<section class="row">
+				<div class="col-md-4 wrapper animated bounceInLeft" id="box_1">
+					<div class="row">
+						<div class="col-lg-4 col-sm-5">
+							<span class="icon_feature center-block">
+								<img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/barato.png" alt="">
+							</span>
+						</div>
+						<div class="col-lg-8 col-sm-7">
+							<h3 class="text-title"><strong>Cabe no bolso</strong></h3>
+							<p>Temos fornecedores que atendem desde o menor preço até o alto padrão, <strong>você pode escolher.</strong></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 wrapper animated bounceInLeft" id="box_2">
+					<div class="row">
+						<div class="col-lg-4 col-sm-5">
+							<span class="icon_feature center-block">
+								<img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/simples-e-rapido.png" alt="">
+							</span>
+						</div>
+						<div class="col-lg-8 col-sm-7">
+							<h3 class="text-title"><strong>Simples e rápido</strong></h3>
+							<p>Receba através de poucos cliques, <strong>em 42 horas,</strong> até <strong>4 contatos de nossos fornecedores</strong> parceiros.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 wrapper animated bounceInLeft" id="box_3">
+					<div class="row">
+						<div class="col-lg-4 col-sm-5">
+							<span class="icon_feature center-block">
+								<img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/relacionamento.png" alt="">
+							</span>
+						</div>
+						<div class="col-lg-8 col-sm-7">
+							<h3 class="text-title"><strong>Nós te ajudamos</strong></h3>
+							<p>Possuímos uma equipe de relacionamento que estará a sua disposição para qualquer necessidade.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+
+	<div class="procompra slider">
+		<div class="container no-padding">
+			<section class="row">
+				<div class="col-md-12">
+					<span class="icon_quote">
+						<img src="https://s3-sa-east-1.amazonaws.com/procompra/lp_suppliers/_.png" alt="">
+					</span>
+					<div ng-include src="'/procompra_v4/views/slider.html'"></div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+<!-- 	<div class="procompra suppliers">
+		<div class="container">
+			<section class="row">
+				<div class="col-md-12">
+					<div ng-include src="'/procompra_v4/views/slider_supplier.html'"></div>
+				</div>
+			</section>
+		</div>
+	</div> -->
+
+	<footer>
+		<div class="procompra footer_1">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+					<a href="https://www.procompra.com.br/" target="_blank">
+
+							<span class="logo pull-left">
+
+							</span>
+						</a>
+					</div>
+					<div class="col-md-6">
+						<ul class="pull-right list-unstyled">
+							<li class="pull-left ml"><a target="_blank" class="text-link" href="https://www.procompra.com.br/quem-somos">Sobre nós</a></li>
+							<li class="pull-left ml"><a target="_blank" class="text-link" href="https://www.procompra.com.br/termos-condicoes">Termos e Condições</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="procompra footer_2">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<small class="text-center text-link">ProCompra 2015</small>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+<script src="https://app.procompra.com.br/procompra_v4/js/public/all_vendors.js?version=1452599891468"></script>
+
+<script src="https://app.procompra.com.br/procompra_v4/js/public/all.js?version=1452599891468"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.2.5/angular-locale_pt-br.js"></script>
+
+</body>
+</html>
