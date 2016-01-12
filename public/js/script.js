@@ -3560,36 +3560,21 @@ if (function(global, factory) {
         ga("send", "event", "Social", link.text(), link[0].href);
     };
     $port.on("mousedown", ".links > a", initAnalytic);
-}(Port), angular.module("proCompra", [ "proCompra.controllers", "proCompra.directives", "proCompra.services" ]), 
-angular.module("proCompra.controllers", []).controller("QuestionaryCtrl", [ "$scope", "$window", "Questionary", "$filter", "$rootScope", "Upload", "Auth", function($scope, $window, Questionary, $filter, $rootScope, Upload, Auth) {
+}(Port), angular.module("proCompra", [ "proCompra.controllers", "proCompra.directives", "proCompra.services", "proCompra.filters" ]), 
+angular.module("proCompra.controllers", []).controller("QuestionaryCtrl", [ "$scope", "$window", "Questionary", "$filter", "$rootScope", "Auth", function($scope, $window, Questionary, $filter) {
     var questionaryAcceptContactLength = null;
     $scope.questionary = null, $scope.scrollTop = function() {
         angular.element($window)[0].scrollTo(0, 0);
     }, $scope.testFile = function(files, rejectFiles) {
         $scope.filesError = !1, rejectFiles.length && ($scope.filesError = !0);
     }, $scope.upload = function(brid, data, cb) {
-        var files = $scope.files, queue = [], statusGlobal = !0;
+        var files = $scope.files, queue = [];
         files && files.length ? Questionary.listFile(brid, files).then(function(res) {
             if (res.status) for (var files = $scope.files, i = 0; i < files.length; i++) {
                 queue.push(i);
-                var file = files[i];
-                Upload.upload({
-                    url: Auth.env() + "/save-request-files",
-                    fields: {
-                        incrementId: brid
-                    },
-                    file: file
-                }).success(function(res) {
-                    queue.splice(0, 1), statusGlobal = res.status ? statusGlobal : !statusGlobal, queue.length || (statusGlobal ? cb({
-                        status: "ok"
-                    }, data) : cb({
-                        status: "error"
-                    }, data));
-                }).error(function() {
-                    queue.splice(0, 1), queue.length || cb({
-                        status: "error"
-                    }, data);
-                });
+                {
+                    files[i];
+                }
             }
         }) : cb({
             status: "ok"
@@ -3680,6 +3665,14 @@ angular.module("proCompra.controllers", []).controller("QuestionaryCtrl", [ "$sc
             });
         }));
     };
+} ]), angular.module("proCompra.filters", []).filter("isEmail", function() {
+    return function(str) {
+        return str ? null != str.match(/^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/gim) : null;
+    };
+}).filter("sanitize", [ "$sce", function($sce) {
+    return function(htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+    };
 } ]), angular.module("proCompra.directives", []).directive("questionary", [ "Questionary", "$window", "$rootScope", function(Questionary, $window, $rootScope) {
     return {
         restrict: "E",
@@ -3688,7 +3681,7 @@ angular.module("proCompra.controllers", []).controller("QuestionaryCtrl", [ "$sc
         templateUrl: "/questionary.html",
         link: function(scope, el, attr) {
             Questionary.get(attr.category).then(function(r) {
-                scope.questionary = r.data, $rootScope.$broadcast("Questionary.get", r.data);
+                console.log(r), scope.questionary = r.data, $rootScope.$broadcast("Questionary.get", r.data);
             });
         }
     };

@@ -17,7 +17,7 @@ window.Port = window.Port || {};
 
 angular.module('proCompra',['proCompra.controllers','proCompra.directives','proCompra.services','proCompra.filters'])
 angular.module('proCompra.controllers', [])
-.controller('QuestionaryCtrl', ['$scope','$window','Questionary','$filter','$rootScope','Upload','Auth',  function ($scope,$window,Questionary,$filter,$rootScope,Upload,Auth) {
+.controller('QuestionaryCtrl', ['$scope','$window','Questionary','$filter','$rootScope','Auth',  function ($scope,$window,Questionary,$filter,$rootScope,Auth) {
 	var questionaryAcceptContactLength = null;
 	$scope.questionary = null;
 	$scope.scrollTop = function(){
@@ -43,26 +43,26 @@ angular.module('proCompra.controllers', [])
 					for (var i = 0; i < files.length; i++) {
 						queue.push(i)
 						var file = files[i];
-						Upload.upload({
-							url: Auth.env()+'/save-request-files',
-							fields:{incrementId:brid},
-							file: file
-						}).success(function (res) {
-							queue.splice(0,1);
-							statusGlobal = res.status ? statusGlobal : !statusGlobal;
-							if(!queue.length){
-								if(statusGlobal){
-									cb({status:'ok'},data)    
-								}else{
-									cb({status:'error'},data)
-								}
-							}
-						}).error(function () {
-							queue.splice(0,1)
-							if(!queue.length){
-								cb({status:'error'},data)
-							}
-						})
+						// Upload.upload({
+						// 	url: Auth.env()+'/save-request-files',
+						// 	fields:{incrementId:brid},
+						// 	file: file
+						// }).success(function (res) {
+						// 	queue.splice(0,1);
+						// 	statusGlobal = res.status ? statusGlobal : !statusGlobal;
+						// 	if(!queue.length){
+						// 		if(statusGlobal){
+						// 			cb({status:'ok'},data)    
+						// 		}else{
+						// 			cb({status:'error'},data)
+						// 		}
+						// 	}
+						// }).error(function () {
+						// 	queue.splice(0,1)
+						// 	if(!queue.length){
+						// 		cb({status:'error'},data)
+						// 	}
+						// })
 					}
 				}
 			})
@@ -272,19 +272,19 @@ angular.module('proCompra.controllers', [])
     };
 }]);
 angular.module('proCompra.filters', [])
-	.filter('isEmail',function(){
-		return function(str){
-			if(!str){
-				return null;
-			}
-			return str.match(/^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/igm) != null;
-		};
-	})
-	.filter("sanitize", ['$sce', function($sce) {
-		return function(htmlCode){
-			return $sce.trustAsHtml(htmlCode);
+.filter('isEmail',function(){
+	return function(str){
+		if(!str){
+			return null;
 		}
-	}])
+		return str.match(/^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/igm) != null;
+	};
+})
+.filter("sanitize", ['$sce', function($sce) {
+	return function(htmlCode){
+		return $sce.trustAsHtml(htmlCode);
+	}
+}])
 angular.module('proCompra.directives',[])
 .directive('questionary', ['Questionary','$window','$rootScope', function(Questionary,$window,$rootScope) {
 	return {
@@ -304,7 +304,6 @@ angular.module('proCompra.directives',[])
 		}
 	};
 }])
-
 angular.module('proCompra.services', [])
 .factory('SerializeWizard', ['$filter',function($filter) {
 	return {
